@@ -87,3 +87,26 @@ class Main:
 
 if __name__ == "__main__":
     Main.main(sys.argv)
+import cProfile
+
+def slow_function():
+    total = 0
+    for i in range(1, 100000):
+        total += i
+    return total
+
+def fast_function():
+    return sum([i for i in range(10000)])
+
+def main():
+    slow_function()
+    fast_function()
+
+if __name__ == "__main__":
+    cProfile.run('main()')
+if __name__ == "__main__":
+    cProfile.run('main()', 'output.prof')
+import pstats
+
+p = pstats.Stats('output.prof')
+p.sort_stats('tottime').print_stats(10)  # 按总时间排序，显示前10行
